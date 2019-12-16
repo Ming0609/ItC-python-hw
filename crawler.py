@@ -1,3 +1,7 @@
+from datetime import datetime
+from time import sleep
+import requests
+import pdb
 class Crawler(object):
     def __init__(self,
                  base_url='https://www.csie.ntu.edu.tw/news/',
@@ -49,6 +53,7 @@ class Crawler(object):
             #          to crawl the content
             #       3. append the date, title and content to
             #          contents
+            pass
         return contents, last_date
 
     def crawl_content(self, url):
