@@ -1,5 +1,6 @@
 from datetime import datetime
 from time import sleep
+from lxml import etree
 import requests
 from lxml import etree
 import pdb
@@ -47,14 +48,15 @@ class Crawler(object):
         ).content.decode()
         sleep(0.1)
         # TODO: parse the response and get dates, titles and relative url with etree
-
+        contents = list()
         html = etree.HTML(res)
         dates = html.xpath('//body/div[1]/div/div[2]/div/div/div[2]/div/table/tbody/tr/td[1]/text()')
-        title = html.xpath('//body/div[1]/div/div[2]/div/div/div[2]/div/table/tbody/tr/td[2]/a/text()')
-        contents = list(dates,title)
-        print(dates)
-
+        titles = html.xpath('//body/div[1]/div/div[2]/div/div/div[2]/div/table/tbody/tr/td[2]/a/text()')
+        rel_urls = html.xpath('//body/div[1]/div/div[2]/div/div/div[2]/div/table/tbody/tr/td[2]/a/@href')
+        last_date = dates[-1]
         for rel_url in rel_urls:
+            path = self.base_url + rel_url
+            print(path)
             # TODO: 1. concatenate relative url to full url
             #       2. for each url call self.crawl_content
             #          to crawl the content
