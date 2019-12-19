@@ -53,10 +53,24 @@ class Crawler(object):
         dates = html.xpath('//body/div[1]/div/div[2]/div/div/div[2]/div/table/tbody/tr/td[1]/text()')
         titles = html.xpath('//body/div[1]/div/div[2]/div/div/div[2]/div/table/tbody/tr/td[2]/a/text()')
         rel_urls = html.xpath('//body/div[1]/div/div[2]/div/div/div[2]/div/table/tbody/tr/td[2]/a/@href')
-        last_date = dates[-1]
+        last_date = datetime.strptime(dates[-1], "%Y-%m-%d")
         for rel_url in rel_urls:
             path = self.base_url + rel_url
-            print(path)
+            rep = requests.get(path,
+            headers={'Accept-Language':
+                     'zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6'}).content.decode()
+            sleep(0.1)
+            htm = etree.HTML(rep)
+            content = htm.xpath('//body/div[1]/div/div[2]/div/div/div[2]/div/div[3]/div/text()')
+            print(content)
+            print(1)
+            #print(path)
+            #contents.append(dates)
+            #contents.append(titles)
+            #print(contents)
+            #print(titles)
+            #print(last_date)
+            #print(start_date)
             # TODO: 1. concatenate relative url to full url
             #       2. for each url call self.crawl_content
             #          to crawl the content
