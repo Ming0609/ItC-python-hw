@@ -56,14 +56,16 @@ class Crawler(object):
         last_date = datetime.strptime(dates[-1], "%Y-%m-%d")
         for rel_url in rel_urls:
             path = self.base_url + rel_url
+            self.crawl_content(path)
+
             rep = requests.get(path,
             headers={'Accept-Language':
                      'zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6'}).content.decode()
             sleep(0.1)
-            htm = etree.HTML(rep)
-            content = htm.xpath('//body/div[1]/div/div[2]/div/div/div[2]/div/div[3]/div/text()')
-            print(content)
-            print(1)
+            # htm = etree.HTML(rep)
+            # content = htm.xpath('//body/div[1]/div/div[2]/div/div/div[2]/div/div[3]/div/text()')
+            # print(content)
+            # print(1)
             #print(path)
             #contents.append(dates)
             #contents.append(titles)
@@ -86,5 +88,16 @@ class Crawler(object):
         then you are to crawl contents of
         ``Title : 我與DeepMind的A.I.研究之路, My A.I. Journey with DeepMind Date : 2019-12-27 2:20pm-3:30pm Location : R103, CSIE Speaker : 黃士傑博士, DeepMind Hosted by : Prof. Shou-De Lin Abstract: 我將與同學們分享，我博士班研究到加入DeepMind所參與的projects (AlphaGo, AlphaStar與AlphaZero)，以及從我個人與DeepMind的視角對未來AI發展的展望。 Biography: 黃士傑, Aja Huang 台灣人，國立臺灣師範大學資訊工程研究所博士，現為DeepMind Staff Research Scientist。``
         """
-        raise NotImplementedError
+
+        #url = "https://www.csie.ntu.edu.tw/news/news.php?Sn=15216"
+        res = requests.get(url,
+        headers={'Accept-Language': 'zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6'}
+        ).content.decode()
+        html = etree.HTML(res)
+
+        content = [text.replace('\r\n', '').replace('\xa0', '')
+                   for text in html.xpath('//div[@class="editor content"]//text()')]
+        content = "".join([text for text in content if text != ""])
+        print(content)
+        #raise NotImplementedError
     
