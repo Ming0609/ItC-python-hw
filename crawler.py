@@ -56,29 +56,16 @@ class Crawler(object):
         last_date = datetime.strptime(dates[-1], "%Y-%m-%d")
         for rel_url in rel_urls:
             path = self.base_url + rel_url
-            self.crawl_content(path)
-
-            rep = requests.get(path,
-            headers={'Accept-Language':
-                     'zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6'}).content.decode()
+            content = self.crawl_content(path)
+            contents.append(content)
             sleep(0.1)
-            # htm = etree.HTML(rep)
-            # content = htm.xpath('//body/div[1]/div/div[2]/div/div/div[2]/div/div[3]/div/text()')
-            # print(content)
-            # print(1)
-            #print(path)
-            #contents.append(dates)
-            #contents.append(titles)
-            #print(contents)
-            #print(titles)
-            #print(last_date)
-            #print(start_date)
             # TODO: 1. concatenate relative url to full url
             #       2. for each url call self.crawl_content
             #          to crawl the content
             #       3. append the date, title and content to
             #          contents
-            pass
+        contents = list(zip(dates, titles, contents))
+        print(contents)
         return contents, last_date
 
     def crawl_content(self, url):
@@ -98,6 +85,5 @@ class Crawler(object):
         content = [text.replace('\r\n', '').replace('\xa0', '')
                    for text in html.xpath('//div[@class="editor content"]//text()')]
         content = "".join([text for text in content if text != ""])
-        print(content)
         #raise NotImplementedError
     
