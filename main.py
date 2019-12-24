@@ -7,3 +7,4 @@ if __name__ == '__main__':
     crawler = Crawler()
     content = crawler.crawl(args.start_date, args.end_date)
     # TODO: write content to file according to spec
+    print(content)

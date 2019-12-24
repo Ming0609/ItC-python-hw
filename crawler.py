@@ -1,9 +1,10 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from time import sleep
 from lxml import etree
 import requests
 from lxml import etree
 import pdb
+
 class Crawler(object):
     def __init__(self,
                  base_url='https://www.csie.ntu.edu.tw/news/',
@@ -65,7 +66,11 @@ class Crawler(object):
             #       3. append the date, title and content to
             #          contents
         contents = list(zip(dates, titles, contents))
-        print(contents)
+        contents = [content for content in contents if 
+                    datetime.strptime(content[0], "%Y-%m-%d") > start_date 
+                    and datetime.strptime(content[0], "%Y-%m-%d") < 
+                    end_date + timedelta(seconds=86399)]
+        #print(contents)
         return contents, last_date
 
     def crawl_content(self, url):
