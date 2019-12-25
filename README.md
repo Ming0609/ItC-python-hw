@@ -5,7 +5,7 @@ Introduction to computer python homework: crawl news from website
 
 ## Author, ID, github
 許晉洋, B05203017, yang611
-沈世明, ,Ming0609
+沈世明, B08209032,Ming0609,梅(local)
 Matdexir, B08209032, matdexir
 
 ## Introduction
@@ -25,7 +25,8 @@ which parse the html then return.
 Also, I wrote a simple git guide below for our team.
 
 - 沈世明:
-I worked on the crawler.py part of the program which send the request to the web and I also find the xpath of the content.
+1.I worked on the crawler.py part of the program which send the request to the web and I also find the xpath of the content.
+2.I create the repository and manage it on github.
 
 - Matdexir:
 I worked on the main.py part of the program which saves the output from the crawler in a csv format file.
