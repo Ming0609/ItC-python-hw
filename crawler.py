@@ -65,9 +65,10 @@ class Crawler(object):
             #          to crawl the content
             #       3. append the date, title and content to
             #          contents
+        titles = [title.replace(" \" ", " \"\" ") for title in titles]
         contents = list(zip(dates, titles, contents))
         contents = [content for content in contents if 
-                    datetime.strptime(content[0], "%Y-%m-%d") > start_date 
+                    datetime.strptime(content[0], "%Y-%m-%d") >= start_date 
                     and datetime.strptime(content[0], "%Y-%m-%d") < 
                     end_date + timedelta(seconds=86399)]
         #print(contents)
@@ -87,7 +88,7 @@ class Crawler(object):
         ).content.decode()
         html = etree.HTML(res)
 
-        content = [text.replace('\r\n', '').replace('\xa0', '')
+        content = [text.replace('\r\n', '').replace('\xa0', '').replace(" \" ", " \"\" ")
                    for text in html.xpath('//div[@class="editor content"]//text()')]
         content = "".join([text for text in content if text != ""])
         #raise NotImplementedError
